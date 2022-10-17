@@ -17,7 +17,6 @@ import { BoardService } from './board/board.service';
         database:'d5nnq0f4tc2eqk',
         entities:[]
     }),
-
     extra: {
       ssl: {
         rejectUnauthorized :  false
