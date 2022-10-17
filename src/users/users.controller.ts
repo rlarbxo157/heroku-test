@@ -1,19 +1,27 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import {ApiTags, ApiOperation, ApiCreatedResponse, ApiBody} from '@nestjs/swagger';
+import { User } from './user.entity';
 
 @Controller('users')
+@ApiTags('유저 control Api')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
+  @ApiBody({type:CreateUserDto})
+  @ApiOperation({summary:'유저 생성Api.',description:'유저 생성'})  //summary 는 보이는곳
+  @ApiCreatedResponse({description:"유저 생성", type:User})
+  async create(@Body() createUserDto: CreateUserDto) {
+     return this.usersService.createUser(createUserDto);
+    
   }
 
   @Get()
+  @ApiOperation({summary:'유저 조회',description:'유저 조회'})  //summary 는 보이는곳
   findAll() {
     return this.usersService.findAll();
   }

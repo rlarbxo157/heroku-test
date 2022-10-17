@@ -3,8 +3,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
+import {ApiTags, ApiOperation, ApiCreatedResponse} from '@nestjs/swagger';
 
 @Controller('board')
+@ApiTags('게시글 control Api')
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
