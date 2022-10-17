@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardModule } from './board/board.module';
 import { Board } from './board/board.entity';
 import { BoardService } from './board/board.service';
+import { UsersModule } from './users/users.module';
+import { User } from './users/user.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -24,10 +26,10 @@ import { BoardService } from './board/board.service';
     },
     synchronize: true,
     entities: [
-      Board
+      Board, User
     ]
 
-  }),BoardModule],
+  }),BoardModule, UsersModule],
   controllers: [],
   providers: [],
 })
