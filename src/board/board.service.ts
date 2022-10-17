@@ -22,7 +22,7 @@ export class BoardService {
   }
 
   findAll() {
-    return `This action returns all board`;
+    return this.boardRepository.find();
   }
 
   findOne(id: number) {

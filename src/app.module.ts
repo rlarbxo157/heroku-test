@@ -2,6 +2,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardModule } from './board/board.module';
+import { Board } from './board/board.entity';
 import { BoardService } from './board/board.service';
 
 @Module({
@@ -13,7 +14,8 @@ import { BoardService } from './board/board.service';
         port:5432,
         username:'uzvklfwfmfjdee',
         password:'1999096aa6e324144f0a8eb0c5ce2e3cbf7d1d6a6236d3a2700c755a4e0a6d24',
-        database:'d5nnq0f4tc2eqk'
+        database:'d5nnq0f4tc2eqk',
+        entities:[]
     }),
 
     extra: {
@@ -23,7 +25,7 @@ import { BoardService } from './board/board.service';
     },
     synchronize: true,
     entities: [
-
+      Board
     ]
 
   }),BoardModule],
