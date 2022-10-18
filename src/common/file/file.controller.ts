@@ -1,16 +1,15 @@
 /* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Patch, Param,Res, Delete,UseInterceptors,UploadedFile, Query } from '@nestjs/common';
 import { FileService } from './file.service';
-import { CreateFileDto } from './dto/create-file.dto';
-import { UpdateFileDto } from './dto/update-file.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
-
+import {ApiTags, ApiOperation, ApiCreatedResponse,ApiBody} from '@nestjs/swagger';
 @Controller('file')
 export class FileController {
   constructor(private config:ConfigService) {}
 
   @Post()
+  @ApiOperation({summary:'파일 업로드 테스트'})
   @UseInterceptors(FileInterceptor('file'))
   create(@UploadedFile() file) {
     // console.log(file);
