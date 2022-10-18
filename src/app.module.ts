@@ -7,6 +7,7 @@ import { BoardService } from './board/board.service';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
 import { CommentModule } from './comment/comment.module';
+import { FileModule } from './common/file/file.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -30,7 +31,7 @@ import { CommentModule } from './comment/comment.module';
       Board, User
     ]
 
-  }),BoardModule, UsersModule, CommentModule],
+  }),BoardModule, UsersModule, CommentModule, FileModule],
   controllers: [],
   providers: [],
 })

@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.1.4",
     "@nestjs/mapped-types": "^1.2.0",
     "@nestjs/platform-express": "^9.0.0",
@@ -30,6 +31,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "core-util-is": "^1.0.3",
+    "light-date": "^1.2.0",
     "nestjs-typeorm-paginate": "^4.0.2",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
