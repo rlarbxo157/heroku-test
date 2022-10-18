@@ -39,8 +39,6 @@ export class UsersService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-
-
     return `This action updates a #${id} user`;
   }
 
@@ -58,4 +56,10 @@ export class UsersService {
         return true;
       }
     }
+
+
+    uploadFileDisk(files:File[]):string[] {
+      return ['asd','asd']
+    }
+
 }
