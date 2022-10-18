@@ -6,6 +6,7 @@ import { Board } from './board/board.entity';
 import { BoardService } from './board/board.service';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -29,7 +30,7 @@ import { User } from './users/user.entity';
       Board, User
     ]
 
-  }),BoardModule, UsersModule],
+  }),BoardModule, UsersModule, CommentModule],
   controllers: [],
   providers: [],
 })
