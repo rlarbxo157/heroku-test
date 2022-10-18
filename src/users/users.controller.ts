@@ -37,21 +37,25 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiOperation({summary:'유저 단일 조회',description:'유저 단일 조회'})
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
 
   @Patch(':id')
+  @ApiOperation({summary:'유저 수정',description:'유저 수정'})
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
+  @ApiOperation({summary:'유저 삭제',description:'유저 삭제'})
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
 
   @Get('/name/:name')
+  @ApiOperation({summary:'유저 이름 중복검사',description:'유저 이름 중복검사'})
   existName(@Param('name') name:string){
     console.log(name);
     return this.usersService.existName(name);
