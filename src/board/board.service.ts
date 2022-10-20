@@ -4,29 +4,70 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from './board.entity';
-import { Repository } from 'typeorm';
+import { createQueryBuilder, DataSource, getConnection, Repository } from 'typeorm';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
+import { TestDto } from './dto/test.dto';
 
 @Injectable()
 export class BoardService {
   constructor(@InjectRepository(Board) private boardRepository: Repository<Board>){}
   
-  async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-    const {title, description} = createBoardDto;
-    const board = this.boardRepository.create({
-      title,
-      description,
-    })
+  // 기존 typeorm repository 함수
+  // async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+  //   const {title, description} = createBoardDto;
+  //   const board = this.boardRepository.create({
+  //     title,
+  //     description,
+  //   })
 
-    await this.boardRepository.save(board);
+  //   await this.boardRepository.save(board);
+  //   return board;
+  // }
+
+  // querybuilder 사용 함수
+  async createBoard(createBoardDto: CreateBoardDto){
+    const {title, description} = createBoardDto;
+    const board = await this.boardRepository.createQueryBuilder('board')
+    .insert()
+    .into(Board)
+    .values([
+      {title:title, description:description}
+    ])
+    .execute();
     return board;
   }
 
-  findAll() {
-    return this.boardRepository.find();
+  async findAll() {
+    // return this.boardRepository.find();
+
+    // const qb = await this.boardRepository.createQueryBuilder('user');
+    // qb.where('user.nickname = :nickname', {nickname : 'test'})
+    // console.log(qb.getOne());
+
+    const board = await this.boardRepository.createQueryBuilder('board')
+    .select(['board.id','board.title','board.description','board.createdAt','board.updatedAt'])
+    .where('board.title = :title', {title:'asd'})
+    .orderBy('id')
+    .getRawMany();
+
+    return board;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} board`;
+  async findOne(value: string) {
+    console.log(value);
+
+    const board = await this.boardRepository.createQueryBuilder('board')
+    .select(['board.id','board.title','board.description','board.createdAt','board.updatedAt'])
+    .where('board.id = :id', {id: value})
+    .getRawOne();
+
+    // console.log(board);
+    
+    return board;
   }
 
   update(id: number, updateBoardDto: UpdateBoardDto) {
@@ -35,5 +76,10 @@ export class BoardService {
 
   remove(id: number) {
     return `This action removes a #${id} board`;
+  }
+
+  test(query: TestDto) {
+    console.log(query);
+    return 'asd';
   }
 }

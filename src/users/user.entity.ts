@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 // eslint-disable-next-line prettier/prettier
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import {ApiProperty} from '@nestjs/swagger';
+import { Transform } from "class-transformer";
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -27,4 +28,12 @@ export class User extends BaseEntity {
     @ApiProperty()
     @Column()
     address:string;
+
+    @ApiProperty()
+    @CreateDateColumn({type:"date", default: ()=> "CURRENT_TIMESTAMP(6)"})
+    createdAt: Date;
+
+    @ApiProperty()
+    @UpdateDateColumn({type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)",onUpdate:"CURRENT_TIMESTAMP(6)"})
+    updatedAt: Date;
 }

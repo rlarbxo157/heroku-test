@@ -25,8 +25,6 @@ export class UsersController {
     })
   }
 
-
-
   @Post()
   @ApiBody({type:CreateUserDto})
   @ApiOperation({summary:'유저 생성Api.',description:'유저 생성'})  //summary 는 보이는곳
@@ -39,9 +37,7 @@ export class UsersController {
           ok : false
         }
      }
-
      return this.usersService.createUser(createUserDto);
-    
   }
 
   @Get()
@@ -74,7 +70,4 @@ export class UsersController {
     console.log(name);
     return this.usersService.existName(name);
   }
-
-
-
 }

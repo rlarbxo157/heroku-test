@@ -10,6 +10,7 @@ import { User } from './user.entity';
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>){}
+  // Repository 를 extends 함으로써 find, save 등등 가능함.
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const {name,email,nickname,phone, address} = createUserDto;
@@ -29,6 +30,7 @@ export class UsersService {
     if(!this.userRepository) {
       throw new NotFoundException('user not found');
     }
+    console.log(this.userRepository);
 
     return this.userRepository.find();
   }

@@ -5,7 +5,6 @@ import { Board } from './board.entity';
 
 @EntityRepository(Board)
 export class BoardRepository  {
-        constructor(@InjectRepository(Board) private readonly boardRepository: Repository<Board>){
-            
-        }
+        constructor(@InjectRepository(Board) private readonly boardRepository: Repository<Board>){}
+ 
 }
