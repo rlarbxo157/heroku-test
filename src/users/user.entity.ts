@@ -18,6 +18,10 @@ export class User extends BaseEntity {
     email: string[];
 
     @ApiProperty()
+    @Column({nullable:true})
+    password:string;
+
+    @ApiProperty()
     @Column()
     nickname: string;
 
@@ -36,4 +40,6 @@ export class User extends BaseEntity {
     @ApiProperty()
     @UpdateDateColumn({type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)",onUpdate:"CURRENT_TIMESTAMP(6)"})
     updatedAt: Date;
+
+    
 }

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Query, DefaultValuePipe, ParseIntPipe, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res,Req, Query, DefaultValuePipe, ParseIntPipe, UseInterceptors } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,6 +8,7 @@ import { User } from './user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Bind, UploadedFile } from '@nestjs/common/decorators';
 import { HttpStatus } from '@nestjs/common/enums';
+import { Request } from 'express';
 
 @Controller('users')
 @ApiTags('유저 control Api')
@@ -30,13 +31,14 @@ export class UsersController {
   @ApiOperation({summary:'유저 생성Api.',description:'유저 생성'})  //summary 는 보이는곳
   @ApiCreatedResponse({description:"유저 생성", type:User})
   async create(@Body() createUserDto: CreateUserDto) {
-     const result = await this.existName(createUserDto.name);
-     if(!result) {
-        return {
-          message:'데이터 존재',
-          ok : false
-        }
-     }
+    // console.log(createUserDto);
+    //  const result = await this.existName(createUserDto.name);
+    //  if(!result) {
+    //     return {
+    //       message:'데이터 존재',
+    //       ok : false
+    //     }
+    //  }
      return this.usersService.createUser(createUserDto);
   }
 
@@ -70,4 +72,13 @@ export class UsersController {
     console.log(name);
     return this.usersService.existName(name);
   }
+
+  @Get('/test/test')
+  testName(@Req() req: Request, @Body() Body, @Param() Param, @Query() Query) : string {
+    return 'asd';
+  }
+
+  // @Post('/login')
+  // login(@Body loginUserDto)
+
 }

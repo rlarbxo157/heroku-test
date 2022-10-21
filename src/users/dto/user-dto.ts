@@ -21,6 +21,11 @@ export class UserDto {
   email: string[];
 
   @ApiProperty({
+    description:'패스워드'
+  })
+  password: string;
+
+  @ApiProperty({
     description:'닉네임'
   })
   nickname: string;

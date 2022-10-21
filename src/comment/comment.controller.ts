@@ -12,7 +12,6 @@ export class CommentController {
 
   @Post()
   @ApiBody({type:CreateCommentDto})
-
   @ApiOperation({summary:'댓글 생성Api.',description:'댓글 생성'})  //summary 는 보이는곳
   create(@Body() createCommentDto: CreateCommentDto) {
     return this.commentService.create(createCommentDto);

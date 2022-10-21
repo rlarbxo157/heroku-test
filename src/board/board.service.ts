@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from './board.entity';
-import { createQueryBuilder, DataSource, getConnection, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import {
   paginate,
   Pagination,
@@ -65,10 +65,19 @@ export class BoardService {
     .where('board.id = :id', {id: value})
     .getRawOne();
 
-    // console.log(board);
+    if(!board){
+       throw new HttpException(`${value} is not defined`,401)
+    }
     
-    return board;
+    return board ;
   }
+
+  // async createComment(id:number,comment) {
+  //   const board = await this.boardRepository.findOne({id,
+  //     relations:['comment'],
+  //   })
+
+  // }
 
   update(id: number, updateBoardDto: UpdateBoardDto) {
     return `This action updates a #${id} board`;

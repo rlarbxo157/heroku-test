@@ -13,13 +13,14 @@ export class UsersService {
   // Repository 를 extends 함으로써 find, save 등등 가능함.
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const {name,email,nickname,phone, address} = createUserDto;
+    const {name,email,nickname,phone, address,password} = createUserDto;
     const user = this.userRepository.create({
       name,
       email,
       nickname,
       phone,
-      address
+      address,
+      password
     })
 
     await this.userRepository.save(user);
@@ -51,7 +52,7 @@ export class UsersService {
 
   async existName(name: string):Promise<boolean> {
     const user =await this.userRepository.findOne({where:{name:name}})
-      console.log(user);
+      // console.log(user);
       if(user) {
         return false;
       }else {

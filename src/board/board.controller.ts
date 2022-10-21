@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query,HttpCode,Header } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query,HttpCode,Header, HttpException, UseFilters, UseInterceptors } from '@nestjs/common';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { ReadBoardDto } from './dto/read-board.dto';
 import {ApiTags, ApiOperation, ApiCreatedResponse,ApiBody} from '@nestjs/swagger';
 import { TestDto } from './dto/test.dto';
+import { HttpExceptionFilter } from 'src/http-exception.filter';
+import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 
 @Controller('board')
 @ApiTags('게시글 control Api')
@@ -28,7 +30,15 @@ export class BoardController {
   }
 
   @Get(':id')
+  @UseFilters(HttpExceptionFilter)
+  @UseInterceptors(SuccessInterceptor)
   findOne(@Param('id') id: string) {
+    // if(!id)
+    // custom error 리턴
+    // throw new HttpException('id is not defined',401)
+
+    // console.log('hello');
+
     return this.boardService.findOne(id);
   }
 

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardModule } from './board/board.module';
 import { Board } from './board/board.entity';
@@ -8,6 +8,8 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
 import { CommentModule } from './comment/comment.module';
 import { FileModule } from './common/file/file.module';
+import { Comment } from './comment/entities/comment.entity';
+import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -26,13 +28,19 @@ import { FileModule } from './common/file/file.module';
         rejectUnauthorized :  false
       }
     },
+    autoLoadEntities: true,
     synchronize: true,
     entities: [
-      Board, User
+      Board, User, Comment
     ]
 
   }),BoardModule, UsersModule, CommentModule, FileModule],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+    
+  }
+}
