@@ -9,6 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Bind, UploadedFile } from '@nestjs/common/decorators';
 import { HttpStatus } from '@nestjs/common/enums';
 import { Request } from 'express';
+import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 
 @Controller('users')
 @ApiTags('유저 control Api')
@@ -28,17 +29,10 @@ export class UsersController {
 
   @Post()
   @ApiBody({type:CreateUserDto})
+  @UseInterceptors(SuccessInterceptor)
   @ApiOperation({summary:'유저 생성Api.',description:'유저 생성'})  //summary 는 보이는곳
   @ApiCreatedResponse({description:"유저 생성", type:User})
   async create(@Body() createUserDto: CreateUserDto) {
-    // console.log(createUserDto);
-    //  const result = await this.existName(createUserDto.name);
-    //  if(!result) {
-    //     return {
-    //       message:'데이터 존재',
-    //       ok : false
-    //     }
-    //  }
      return this.usersService.createUser(createUserDto);
   }
 

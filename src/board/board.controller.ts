@@ -8,6 +8,8 @@ import {ApiTags, ApiOperation, ApiCreatedResponse,ApiBody} from '@nestjs/swagger
 import { TestDto } from './dto/test.dto';
 import { HttpExceptionFilter } from 'src/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
+import { FailInterceptor } from 'src/common/interceptors/fail.interceptor';
+import { CreateCommentDto } from 'src/comment/dto/create-comment.dto';
 
 @Controller('board')
 @ApiTags('게시글 control Api')
@@ -32,6 +34,7 @@ export class BoardController {
   @Get(':id')
   @UseFilters(HttpExceptionFilter)
   @UseInterceptors(SuccessInterceptor)
+  @UseInterceptors(FailInterceptor)
   findOne(@Param('id') id: string) {
     // if(!id)
     // custom error 리턴
@@ -55,5 +58,18 @@ export class BoardController {
   @Get('/test')
   test(@Query() query:TestDto) {
     return this.boardService.test(query);
+  }
+
+  @Patch('comment/:id')
+  createComment(@Param('id') boardId:string, @Body() commentData:CreateCommentDto) {
+    return this.boardService.createComment(boardId,commentData);
+  }
+
+  
+  @Get('/relation/comment/:id')
+  @UseFilters(HttpExceptionFilter)
+  @UseInterceptors(SuccessInterceptor)
+  getComment(@Param('id') boardId:string) {
+    return this.boardService.getComment(boardId);
   }
 }

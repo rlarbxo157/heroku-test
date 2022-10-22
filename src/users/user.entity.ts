@@ -18,7 +18,7 @@ export class User extends BaseEntity {
     email: string[];
 
     @ApiProperty()
-    @Column({nullable:true})
+    @Column()
     password:string;
 
     @ApiProperty()
@@ -26,11 +26,11 @@ export class User extends BaseEntity {
     nickname: string;
 
     @ApiProperty()
-    @Column()
+    @Column({nullable:true})
     phone: string;
 
     @ApiProperty()
-    @Column()
+    @Column({nullable:true})
     address:string;
 
     @ApiProperty()

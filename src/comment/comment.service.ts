@@ -11,19 +11,19 @@ export class CommentService {
   constructor(@InjectRepository(Comment) private commentRepository: Repository<Comment>){}
 
   async create(createCommentDto: CreateCommentDto) {
-    const { commentTitle, commentContent} = createCommentDto;
-    const comment = await this.commentRepository.createQueryBuilder('comment')
-    .insert()
-    .into(Comment)
-    .values([
-      {
-        commentTitle:commentTitle,
-        commentContent:commentContent
-      }
-    ])
-    .execute()
+    // const { commentTitle, commentContent} = createCommentDto;
+    // const comment = await this.commentRepository.createQueryBuilder('comment')
+    // .insert()
+    // .into(Comment)
+    // .values([
+    //   {
+    //     commentTitle:commentTitle,
+    //     commentContent:commentContent
+    //   }
+    // ])
+    // .execute()
     
-    return comment;
+    // return comment;
   }
 
   findAll() {

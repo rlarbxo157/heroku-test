@@ -11,10 +11,14 @@ import {
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
 import { TestDto } from './dto/test.dto';
+import { CreateCommentDto } from 'src/comment/dto/create-comment.dto';
+import { Comment } from 'src/comment/entities/comment.entity';
 
 @Injectable()
 export class BoardService {
-  constructor(@InjectRepository(Board) private boardRepository: Repository<Board>){}
+  constructor(@InjectRepository(Board) private boardRepository: Repository<Board>,
+  @InjectRepository(Comment) private commentRepository: Repository<Comment>
+    ){}
   
   // 기존 typeorm repository 함수
   // async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
@@ -91,4 +95,37 @@ export class BoardService {
     console.log(query);
     return 'asd';
   }
+
+  async createComment(id:string, commentData:any) {
+    console.log(id)
+    const board = await this.boardRepository.findOne({
+      where: {
+        id:Number(id)
+      },
+      relations:['comment'],
+    })
+
+    console.log(commentData);
+    const comment = await this.commentRepository.save(commentData);
+    board.comment.push(comment);
+ 
+    return await this.boardRepository.save(board);
+  }
+
+
+  async getComment(id:string) {
+    console.log(id);
+    const board = await this.boardRepository.findOne({
+      where: {
+        id: Number(id)
+      },
+      relations:['comment']
+    })
+
+    return {
+        boardId:board.id,
+        comment:board.comment
+    }
+  }
+
 }

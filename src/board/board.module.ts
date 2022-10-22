@@ -8,9 +8,9 @@ import { Comment } from 'src/comment/entities/comment.entity';
 
 @Module({
   imports : [
-    TypeOrmModule.forFeature([Board])
+    TypeOrmModule.forFeature([Board,Comment])
   ],
   controllers: [BoardController],
-  providers: [BoardService],
+  providers: [BoardService,],
 })
 export class BoardModule {}

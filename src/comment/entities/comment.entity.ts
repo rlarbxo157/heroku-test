@@ -9,11 +9,11 @@ export class Comment {
     commentId:number;
 
     @ApiProperty()
-    @Column()
+    @Column({nullable:true})
     commentTitle:string;
 
     @ApiProperty()
-    @Column()
+    @Column({nullable:true})
     commentContent:string;
 
     @ApiProperty()
@@ -24,7 +24,7 @@ export class Comment {
     @UpdateDateColumn({type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)",onUpdate:"CURRENT_TIMESTAMP(6)"})
     updatedAt: Date;
 
-    @ManyToOne(()=>Board, (board) => board.comment, {onDelete: 'SET NULL'})
+    @ManyToOne(()=>Board, (board) => board.comment, {onDelete: 'SET NULL',nullable:true})
     board: Board
 
 }

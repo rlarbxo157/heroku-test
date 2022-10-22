@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 export class CreateCommentDto {
     @IsNotEmpty()
-    boardId: string;
+    @IsString()
+    readonly boardId: string;
 
-    @IsNotEmpty()
-    commentTitle: string;
+    // @IsNotEmpty()
+    // commentTitle: string;
 
-    @IsNotEmpty()
-    commentContent: string;
+    // @IsNotEmpty()
+    // commentContent: string;
 }

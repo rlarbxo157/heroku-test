@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder } from '@nestjs/swagger';
-import { SwaggerModule } from '@nestjs/swagger/dist';
+import { OpenAPIObject, SwaggerModule } from '@nestjs/swagger/dist';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -13,7 +13,7 @@ async function bootstrap() {
     .addTag('swagger')
     .build();
 
-  const document = SwaggerModule.createDocument(app,config); 
+  const document :OpenAPIObject = SwaggerModule.createDocument(app,config); 
   SwaggerModule.setup('swagger',app,document); 
 
   app.enableCors();

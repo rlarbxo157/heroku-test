@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, Unique } from "typeorm";
 import {ApiProperty} from '@nestjs/swagger';
 import { Comment } from "src/comment/entities/comment.entity";
 
 @Entity("board")
+@Unique(["id"])
 export class Board extends BaseEntity {
     @ApiProperty()
     @PrimaryGeneratedColumn()
@@ -17,8 +18,9 @@ export class Board extends BaseEntity {
     @Column()
     description:string;
 
- 
-    @OneToMany(()=>Comment, (comment)=>comment.board)
+    @ApiProperty()
+    // @Column({type:'text',array:true,nullable:true})
+    @OneToMany(()=>Comment, (comment)=>comment.board, {nullable:true})
     comment: Comment[]
 
     @ApiProperty()

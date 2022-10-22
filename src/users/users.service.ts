@@ -1,26 +1,33 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user-dto';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>){}
   // Repository 를 extends 함으로써 find, save 등등 가능함.
 
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(createUserDto: CreateUserDto): Promise<User | string>  {
     const {name,email,nickname,phone, address,password} = createUserDto;
+    const isNameExist = await this.userRepository.findOneBy({name:name});
+    if(isNameExist) {
+      throw new UnauthorizedException(`${name} 는 이미 존재합니다.`)
+    }
+
+    const hashPassword = await bcrypt.hash(password, 10);
     const user = this.userRepository.create({
       name,
       email,
       nickname,
       phone,
       address,
-      password
+      password:hashPassword
     })
 
     await this.userRepository.save(user);
