@@ -16,6 +16,9 @@ export class Comment {
     @Column({nullable:true})
     commentContent:string;
 
+    @Column()
+    boardId:string;
+
     @ApiProperty()
     @CreateDateColumn({type:"date", default: ()=> "CURRENT_TIMESTAMP(6)"})
     createdAt: Date;

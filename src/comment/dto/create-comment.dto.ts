@@ -5,9 +5,9 @@ export class CreateCommentDto {
     @IsString()
     readonly boardId: string;
 
-    // @IsNotEmpty()
-    // commentTitle: string;
+    @IsNotEmpty()
+    commentTitle: string;
 
-    // @IsNotEmpty()
-    // commentContent: string;
+    @IsNotEmpty()
+    commentContent: string;
 }

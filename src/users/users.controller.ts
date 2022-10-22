@@ -3,6 +3,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res,Req, Query, Defa
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SignupUserDto } from './dto/create-signup.dto';
 import {ApiTags, ApiOperation, ApiCreatedResponse, ApiBody} from '@nestjs/swagger';
 import { User } from './user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -27,14 +28,14 @@ export class UsersController {
     })
   }
 
-  @Post()
-  @ApiBody({type:CreateUserDto})
-  @UseInterceptors(SuccessInterceptor)
-  @ApiOperation({summary:'유저 생성Api.',description:'유저 생성'})  //summary 는 보이는곳
-  @ApiCreatedResponse({description:"유저 생성", type:User})
-  async create(@Body() createUserDto: CreateUserDto) {
-     return this.usersService.createUser(createUserDto);
-  }
+  // @Post()
+  // @ApiBody({type:CreateUserDto})
+  // @UseInterceptors(SuccessInterceptor)
+  // @ApiOperation({summary:'유저 생성Api.',description:'유저 생성'})  //summary 는 보이는곳
+  // @ApiCreatedResponse({description:"유저 생성", type:User})
+  // async create(@Body() createUserDto: CreateUserDto) {
+  //    return this.usersService.createUser(createUserDto);
+  // }
 
   @Get()
   @ApiOperation({summary:'유저 조회',description:'유저 조회'})  //summary 는 보이는곳
@@ -60,19 +61,23 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
 
-  @Get('/name/:name')
-  @ApiOperation({summary:'유저 이름 중복검사',description:'유저 이름 중복검사'})
-  existName(@Param('name') name:string){
-    console.log(name);
-    return this.usersService.existName(name);
-  }
+  // @Get('/name/:name')
+  // @ApiOperation({summary:'유저 이름 중복검사',description:'유저 이름 중복검사'})
+  // existName(@Param('name') name:string){
+  //   console.log(name);
+  //   return this.usersService.existName(name);
+  // }
 
   @Get('/test/test')
   testName(@Req() req: Request, @Body() Body, @Param() Param, @Query() Query) : string {
     return 'asd';
   }
 
-  // @Post('/login')
-  // login(@Body loginUserDto)
-
+  // 회원가입
+  @Post('register')
+  @UseInterceptors(SuccessInterceptor)
+  signup(@Body() signupUserDto:SignupUserDto) {
+    console.log(signupUserDto);
+    return this.usersService.signup(signupUserDto);
+  }
 }

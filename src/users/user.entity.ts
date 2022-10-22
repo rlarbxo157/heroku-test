@@ -14,15 +14,15 @@ export class User extends BaseEntity {
     name: string;
 
     @ApiProperty()
-    @Column({type:'text',array:true})
-    email: string[];
+    @Column()
+    email: string;
 
     @ApiProperty()
     @Column()
     password:string;
 
     @ApiProperty()
-    @Column()
+    @Column({nullable:true})
     nickname: string;
 
     @ApiProperty()

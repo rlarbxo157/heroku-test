@@ -14,23 +14,13 @@ export class CommentController {
   @ApiBody({type:CreateCommentDto})
   @ApiOperation({summary:'댓글 생성Api.',description:'댓글 생성'})  //summary 는 보이는곳
   create(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentService.create(createCommentDto);
-  }
-
-  @Get()
-  @ApiOperation({summary:'댓글 조회',description:'댓글 조회'})  //summary 는 보이는곳
-  findAll() {
-    return this.commentService.findAll();
+    return this.commentService.createComment(createCommentDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentService.update(+id, updateCommentDto);
+  @ApiOperation({summary:'댓글 조회',description:'댓글 조회'})  //summary 는 보이는곳
+  findAll(@Param('id') id:string) {
+    return this.commentService.findComment(id);
   }
 
   @Delete(':id')

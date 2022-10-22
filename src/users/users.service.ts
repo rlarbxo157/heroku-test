@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SignupUserDto } from './dto/create-signup.dto';
 import { UserDto } from './dto/user-dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt'
@@ -13,26 +14,26 @@ export class UsersService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>){}
   // Repository 를 extends 함으로써 find, save 등등 가능함.
 
-  async createUser(createUserDto: CreateUserDto): Promise<User | string>  {
-    const {name,email,nickname,phone, address,password} = createUserDto;
-    const isNameExist = await this.userRepository.findOneBy({name:name});
-    if(isNameExist) {
-      throw new UnauthorizedException(`${name} 는 이미 존재합니다.`)
-    }
+  // async createUser(createUserDto: CreateUserDto): Promise<User | string>  {
+  //   const {name,email,nickname,phone, address,password} = createUserDto;
+  //   const isNameExist = await this.userRepository.findOneBy({email:email});
+  //   if(isNameExist) {
+  //     throw new UnauthorizedException(`${name} 는 이미 존재합니다.`)
+  //   }
 
-    const hashPassword = await bcrypt.hash(password, 10);
-    const user = this.userRepository.create({
-      name,
-      email,
-      nickname,
-      phone,
-      address,
-      password:hashPassword
-    })
+  //   const hashPassword = await bcrypt.hash(password, 10);
+  //   const user = this.userRepository.create({
+  //     name,
+  //     email,
+  //     nickname,
+  //     phone,
+  //     address,
+  //     password:hashPassword
+  //   })
 
-    await this.userRepository.save(user);
-    return user;
-  }
+  //   await this.userRepository.save(user);
+  //   return user;
+  // }
 
   findAll() {
     if(!this.userRepository) {
@@ -57,8 +58,8 @@ export class UsersService {
   }
 
 
-  async existName(name: string):Promise<boolean> {
-    const user =await this.userRepository.findOne({where:{name:name}})
+  async existEmail(email: string):Promise<boolean> {
+    const user =await this.userRepository.findOne({where:{email:email}})
       // console.log(user);
       if(user) {
         return false;
@@ -71,5 +72,25 @@ export class UsersService {
     uploadFileDisk(files:File[]):string[] {
       return ['asd','asd']
     }
+  
+   async signup(signupUserDto:SignupUserDto) {
+      console.log(signupUserDto);
+      const {email, password, name, phone, address} = signupUserDto;
+      const existEmail = await this.userRepository.findOneBy({email:email});
+      if(existEmail) {
+        throw new UnauthorizedException(`${name} 는 이미 존재합니다.`)
+      }
 
+      const hashPassword = await bcrypt.hash(password, 10);
+      const user = this.userRepository.create({
+        name,
+        email,
+        phone,
+        address,
+        password:hashPassword
+      })
+
+      await this.userRepository.save(user);
+      return user;
+   }
 }
