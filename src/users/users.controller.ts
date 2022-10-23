@@ -11,11 +11,12 @@ import { Bind, UploadedFile } from '@nestjs/common/decorators';
 import { HttpStatus } from '@nestjs/common/enums';
 import { Request } from 'express';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('users')
 @ApiTags('유저 control Api')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, private jwtService:JwtService) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -79,5 +80,13 @@ export class UsersController {
   signup(@Body() signupUserDto:SignupUserDto) {
     console.log(signupUserDto);
     return this.usersService.signup(signupUserDto);
+  }
+
+  //로그인
+  @Post('login')
+  @UseInterceptors(SuccessInterceptor)
+  signin(@Body() data:{email:string,password:string}) {
+    // console.log(password);
+    return this.usersService.signin(data);
   }
 }

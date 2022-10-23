@@ -93,4 +93,26 @@ export class UsersService {
       await this.userRepository.save(user);
       return user;
    }
+
+   async signin(data:{email:string, password:string}) {
+  
+
+      const {email,password} = data;
+      const hashPassword = await bcrypt.hash(password,10);
+      try {
+        const user = await this.userRepository.findOneBy({email:email});
+        const isPasswordMatch = await bcrypt.compare(
+          hashPassword,
+          user.password
+        );
+
+        console.log(hashPassword);
+        console.log(user.password);
+
+        console.log(isPasswordMatch)
+
+      } catch (err) {
+
+      }
+   }
 }

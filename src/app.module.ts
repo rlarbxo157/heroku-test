@@ -10,6 +10,7 @@ import { CommentModule } from './comment/comment.module';
 import { FileModule } from './common/file/file.module';
 import { Comment } from './comment/entities/comment.entity';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -34,7 +35,7 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
       Board, User, Comment
     ]
 
-  }),BoardModule, UsersModule, CommentModule, FileModule],
+  }),BoardModule, UsersModule, CommentModule, FileModule, AuthModule],
   controllers: [],
   providers: [],
 })
