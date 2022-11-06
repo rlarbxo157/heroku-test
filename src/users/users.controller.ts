@@ -11,12 +11,12 @@ import { Bind, UploadedFile } from '@nestjs/common/decorators';
 import { HttpStatus } from '@nestjs/common/enums';
 import { Request } from 'express';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
-import { JwtService } from '@nestjs/jwt';
+// import { JwtService } from '@nestjs/jwt';
 
 @Controller('users')
 @ApiTags('유저 control Api')
 export class UsersController {
-  constructor(private readonly usersService: UsersService, private jwtService:JwtService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -26,6 +26,18 @@ export class UsersController {
     res.status(HttpStatus.OK).json({
       success:true,
       data: this.usersService.uploadFileDisk(files)
+    })
+  }
+
+  // excel 파일 업로드용
+  @Post('uploadExcel')
+  @UseInterceptors(FileInterceptor('file'))
+  @Bind(UploadedFile())
+  uploadExcelFile(files: File[], @Res() res: any) {
+    console.log(files);
+    res.status(HttpStatus.OK).json({
+      success:true,
+      data: this.usersService.uploadExcelFileDisk(files)
     })
   }
 
@@ -89,4 +101,6 @@ export class UsersController {
     // console.log(password);
     return this.usersService.signin(data);
   }
+
+
 }

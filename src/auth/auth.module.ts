@@ -1,23 +1,24 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Type } from 'class-transformer';
+import { UserTest } from 'src/testuser/testuser.entity';
+import { TestuserModule } from 'src/testuser/testuser.module';
+import { UserTestRepository } from 'src/testuser/testuser.repository';
+import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt/jwt.strategy';
-import { UsersRepository } from 'src/users/user.repository';
-import { UsersModule } from 'src/users/users.module';
 
 @Module({
-  imports: [
-    PassportModule.register({defaultStrategy:'jwt',session:true}),
-    JwtModule.register({
-      secret:'secret',
-      signOptions:{expiresIn:'1y'}
-    }),
-    UsersModule,
-  ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy]
+    imports: [
+        TypeOrmModule.forFeature([UserTest]),
+        PassportModule.register({defaultStrategy:'jwt', session:false}),
+        JwtModule.register({
+            secret:'secret',
+            signOptions: {expiresIn:'1y'},
+        }),
+    ],
+    providers: [AuthService,JwtStrategy]
 })
 export class AuthModule {}

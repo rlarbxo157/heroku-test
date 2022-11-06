@@ -1,10 +1,15 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { UsersRepository } from 'src/users/user.repository';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserTest } from 'src/testuser/testuser.entity';
+import { Repository } from 'typeorm';
+import { LoginRequestDto } from './dto/login-request.dto';
 
 @Injectable()
 export class AuthService {
-    constructor (private readonly usersRepository:UsersRepository) {}
+    constructor(@InjectRepository(UserTest) private testuserRepository: Repository<UserTest>){}
 
+    async jwtLogin(data:LoginRequestDto) {
+        return ''
+    }       
 }

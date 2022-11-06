@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException, HttpException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpException, UnauthorizedException, UploadedFile } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -8,6 +8,7 @@ import { SignupUserDto } from './dto/create-signup.dto';
 import { UserDto } from './dto/user-dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt'
+import * as XLSX from 'xlsx';
 
 @Injectable()
 export class UsersService {
@@ -72,6 +73,24 @@ export class UsersService {
     uploadFileDisk(files:File[]):string[] {
       return ['asd','asd']
     }
+
+   async uploadExcelFileDisk(@UploadedFile() file) {
+      const workbook = XLSX.read(file.buffer, {type: 'buffer'});
+
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+
+      const rows = XLSX.utils.sheet_to_json(sheet, {
+        defval:null,
+      });
+    
+      console.log(rows);
+      for (const row of rows) {
+        
+        const values = Object.keys(row).map(key=> row[key]);
+        console.log(values);
+      }
+   } 
   
    async signup(signupUserDto:SignupUserDto) {
       console.log(signupUserDto);

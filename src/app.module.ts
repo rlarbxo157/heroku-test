@@ -10,6 +10,8 @@ import { CommentModule } from './comment/comment.module';
 import { FileModule } from './common/file/file.module';
 import { Comment } from './comment/entities/comment.entity';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { TestuserModule } from './testuser/testuser.module';
+import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -35,7 +37,7 @@ import { AuthModule } from './auth/auth.module';
       Board, User, Comment
     ]
 
-  }),BoardModule, UsersModule, CommentModule, FileModule, AuthModule],
+  }),BoardModule, UsersModule, CommentModule, FileModule, TestuserModule, AuthModule],
   controllers: [],
   providers: [],
 })
