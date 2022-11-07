@@ -6,11 +6,11 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersRepository {
-    constructor(@InjectRepository(User) private readonly userRository:Repository<User>) {}
+    constructor(@InjectRepository(User) private readonly userModel:Repository<User>) {}
 
     async existsName(name:string): Promise<boolean> {
         try {
-            const result = await this.userRository.findBy({name:name});
+            const result = await this.userModel.findBy({name:name});
             if(result) {
                 return true;
             }else{
@@ -19,5 +19,11 @@ export class UsersRepository {
         } catch (err) {
             throw new HttpException('db error',400);
         }
+    }
+    
+    async findUsersByEmail(email:string):Promise<any> {
+        console.log(email);
+        const user = await this.userModel.findOneBy({email:email});
+        return user;
     }
 }

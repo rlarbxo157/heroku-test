@@ -12,11 +12,15 @@ import { HttpStatus } from '@nestjs/common/enums';
 import { Request } from 'express';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 // import { JwtService } from '@nestjs/jwt';
+import { AuthService } from 'src/auth/auth.service';
+import { LoginRequestDto } from 'src/auth/dto/login-request.dto';
 
 @Controller('users')
 @ApiTags('유저 control Api')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService,
+    private readonly authService: AuthService
+    ) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -102,5 +106,12 @@ export class UsersController {
     return this.usersService.signin(data);
   }
 
+  // jwt 로그인
+  @Post('jwtlogin')
+  @UseInterceptors(SuccessInterceptor)
+  jwtLogin(@Body() data:LoginRequestDto) {
+    // console.log(data);
+    return this.authService.jwtLogin(data);
+  }
 
 }
